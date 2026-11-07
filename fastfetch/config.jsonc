@@ -1,0 +1,55 @@
+{
+	"$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+	// 默认 logo：ASCII 版 hakimi（tmux 或普通终端都用这个）
+	// 在 kitty 窗口里，.zshrc 中的 fastfetch() 包装函数会覆盖成原图（kitty 图形协议）
+	"logo": {
+		"type": "file",
+		"source": "~/.config/fastfetch/hakimi.txt",
+		"padding": {
+			"top": 0,
+			"left": 1,
+			"right": 4
+		}
+	},
+	"display": {
+		"separator": "  ",
+		"key": {
+			"width": 20
+		},
+		"color": {
+			"keys": "blue",
+			"title": "magenta"
+		}
+	},
+	"modules": [
+		"title",
+		"separator",
+		"os",
+		"host",
+		"kernel",
+		"uptime",
+		"packages",
+		"shell",
+		"display",
+		"de",
+		"wm",
+		"wmtheme",
+		"theme",
+		"icons",
+		"font",
+		"cursor",
+		"terminal",
+		"terminalfont",
+		"cpu",
+		"gpu",
+		"memory",
+		"swap",
+		"disk",
+		"battery",
+		"poweradapter",
+		"localip",
+		"locale",
+		"break",
+		// "colors"
+	]
+}
