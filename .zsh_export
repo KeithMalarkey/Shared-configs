@@ -1,0 +1,5 @@
+export ZSH="$HOME/.oh-my-zsh"
+export SYSTEMD_EDITOR="nvim"
+export VISUAL="nvim"
+export PATH="$HOME/.cargo/bin:$PATH"
+export CMAKE_GENERATOR="Ninja"
