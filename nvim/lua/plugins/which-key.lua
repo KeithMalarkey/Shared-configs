@@ -1,4 +1,3 @@
--- which-key 映射表，并检查 keymapping 问题（重复错误等）
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",

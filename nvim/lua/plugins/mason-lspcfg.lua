@@ -24,6 +24,8 @@ return {
 			"texlab",
 			"vimls",
 			"tombi",
+			-- not necessary for nixos
+			-- "nil",
 		},
 		automatic_enable = false,
 	},

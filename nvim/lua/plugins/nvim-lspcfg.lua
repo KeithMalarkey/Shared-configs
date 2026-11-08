@@ -3,8 +3,6 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
-		-- lspsaga / trouble 没有独立 spec，保留依赖声明（config 里 require 也会自动加载）；
-		-- fidget 已从配置中移除、blink.cmp 有自己的顶层 spec，都不再声明
 		dependencies = {
 			-- "hrsh7th/cmp-nvim-lsp",
 			"glepnir/lspsaga.nvim",
@@ -138,6 +136,15 @@ return {
 				on_attach = on_attach,
 			}
 			vim.lsp.enable("bashls")
+
+			-- =================== Nix ===================
+			vim.lsp.config["nil_ls"] = {
+				cmd = { "nil" },
+				filetypes = { "nix" },
+				root_markers = { "flake.nix", ".git" },
+				capabilities = capabilities,
+			}
+			vim.lsp.enable("nil_ls")
 
 			-- =================== Zsh ===================
 			-- shuck：支持 bash/zsh/posix/mksh 方言的 LSP，zsh 语法、诊断、补全都更准

@@ -1,13 +1,7 @@
-# tmux 插件目录：tpm 自动安装，不入库
-# 新机器上由 tpm（tmux plugin manager）自动安装
 tmux/plugins/
-
-# 编辑器/系统临时文件
 *.swp
 *~
 .DS_Store
-
-# 手工备份文件
 *.bak
 *.bak-*
 *.hm-bak

@@ -1,5 +1,4 @@
 return {
-	-- gitsigns显示git变动
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()

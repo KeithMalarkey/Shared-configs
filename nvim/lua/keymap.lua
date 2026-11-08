@@ -12,14 +12,12 @@ vim.keymap.set("n", "<leader>R", function()
 		if new_name and new_name ~= "" and new_name ~= old_name then
 			vim.cmd("saveas " .. vim.fn.fnameescape(new_name))
 			vim.cmd("silent! !rm " .. vim.fn.shellescape(old_name))
-			vim.cmd("e!") -- 重新加载
+			vim.cmd("e!")
 			vim.notify("文件已重命名为: " .. new_name)
 		end
 	end)
 end, { desc = "Rename Current File" })
 
---[[ Tab/Win/Buf(win或者split的操作参见smart_split的config) ]]
--- space c 关闭窗口,或buffer
 vim.keymap.set("n", "<leader>c", function()
 	local current_buf = vim.api.nvim_get_current_buf()
 	local wins = vim.tbl_filter(function(win)
@@ -32,25 +30,20 @@ vim.keymap.set("n", "<leader>c", function()
 		vim.cmd("close")
 	end
 end, { desc = "Close window/split or buffer" })
--- 关闭所有缓冲区
+
 vim.keymap.set("n", "<leader>cb", "<cmd>%bd<cr>", { desc = "close all buffers" })
--- 切换buffer
 vim.keymap.set("n", "[b", "<cmd>bp<cr>", { desc = "Previous Buffer" })
 vim.keymap.set("n", "]b", "<cmd>bn<cr>", { desc = "Next Buffer" })
--- 切换窗口
--- normal 模式交给 vim-tmux-navigator（可跨 tmux pane），这里只补 visual 模式
 vim.keymap.set("v", "<C-h>", "<C-w>h", { desc = "go to the left window/split" })
 vim.keymap.set("v", "<C-l>", "<C-w>l", { desc = "go to the right window/split" })
 vim.keymap.set("v", "<C-j>", "<C-w>j", { desc = "go to the down window/split" })
 vim.keymap.set("v", "<C-k>", "<C-w>k", { desc = "go to the up window/split" })
--- 分割窗口
 vim.keymap.set({ "n", "v" }, "<leader>|", "<cmd>vsplit<CR>", {
 	desc = "vertical split",
 })
 vim.keymap.set({ "n", "v" }, "<leader>\\", "<cmd>split<CR>", {
 	desc = "horizontal split",
 })
--- 调整窗口大小
 local function resize_window(direction)
 	local win = vim.api.nvim_get_current_win()
 	local config = vim.api.nvim_win_get_config(win)
@@ -78,28 +71,28 @@ vim.keymap.set("n", "<C-Down>", function()
 	resize_window("down")
 end, { desc = "Increase window height" })
 
-vim.keymap.set("n", "]t", "<cmd>tabnext<cr>", { desc = "Next [T]ab" }) -- 下一个tab
-vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>", { desc = "Previous [T]ab" }) -- 前一个tab
+vim.keymap.set("n", "]t", "<cmd>tabnext<cr>", { desc = "Next [T]ab" })
+vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>", { desc = "Previous [T]ab" })
 vim.keymap.set("n", "<C-t>n", "<cmd>tabnew<cr>", { desc = "[T]ab [N]ew" })
 vim.keymap.set("n", "<C-t>c", "<cmd>tabclose<cr>", { desc = "[T]ab [C]lose" })
 
 -- neotree
--- vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" }) # 同下
+-- vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
 vim.keymap.set("n", "<leader>on", "<cmd>Neotree focus<cr>", { desc = "Focus Neotree" })
+
+-- better escape
+vim.keymap.set("i", "jj", "<Esc>")
 
 local function neotree_toggle_current()
 	local buf_path = vim.api.nvim_buf_get_name(0) -- 获取当前 buffer 路径
 	local dir_path
 
 	if buf_path == "" then
-		-- 如果是新建的 buffer，使用当前工作目录
 		dir_path = vim.fn.getcwd()
 	else
-		-- 获取当前文件所在目录
 		dir_path = vim.fn.fnamemodify(buf_path, ":h")
 	end
 
-	-- 使用 neotree 打开该目录
 	require("neo-tree.command").execute({
 		toggle = true,
 		dir = dir_path,

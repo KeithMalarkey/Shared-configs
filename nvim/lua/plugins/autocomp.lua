@@ -1,8 +1,5 @@
--- 该插件主要完成自动补全的功能(auto completions)
 return {
 	"saghen/blink.cmp",
-	-- friendly-snippets（纯数据，无 lua 模块）和 lspkind（无独立 spec）必须保留依赖声明；
-	-- devicons 集中在 deps.lua、LuaSnip 有自己的 spec，由 require 自动加载兜底
 	dependencies = {
 		"rafamadriz/friendly-snippets",
 		"onsails/lspkind-nvim",
@@ -16,23 +13,19 @@ return {
 
 			["<Tab>"] = {
 				function(cmp)
-					-- 1. 如果补全菜单可见，选择下一项（不自动插入）
 					if cmp.is_visible() then
 						return cmp.select_next()
 					end
 
-					-- 2. 如果处于 snippet 编辑状态，跳转到下一个占位符
 					if cmp.snippet_active({ direction = 1 }) then
 						return cmp.snippet_forward()
 					end
 
-					-- 3. 否则，交还给 fallback（比如插入 <Tab> 字符）
-					return false -- 等价于触发 'fallback'
+					return false
 				end,
-				"fallback", -- 安全兜底（虽然函数已处理，但保留更健壮）
+				"fallback",
 			},
 
-			-- 可选：Shift+Tab 处理上一个
 			["<S-Tab>"] = {
 				function(cmp)
 					if cmp.is_visible() then
@@ -49,7 +42,6 @@ return {
 			["<Down>"] = { "select_next", "fallback" },
 			["<CR>"] = { "accept", "fallback" },
 			["<Esc>"] = { "hide", "fallback" },
-			-- tmux 前缀是 C-Space，会把 <C-Space> 吃掉，这里改用 <C-.>
 			["<C-.>"] = { "show", "show_documentation", "hide_documentation" },
 			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
 		},

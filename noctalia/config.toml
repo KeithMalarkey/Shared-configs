@@ -1,9 +1,4 @@
-# Noctalia 配置（手写层，优先级低于 ~/.local/state/noctalia/settings.toml）
-# 文档: https://docs.noctalia.dev/noctalia/configuration/
-
-# 空闲 10 分钟（600 秒）自动锁屏
-# Noctalia 使用 Wayland ext_idle_notifier_v1 协议计时，Niri 支持。
-# 渐暗 2 秒后触发锁屏；播放视频等应用通过 D-Bus 抑制空闲时不会误锁。
+# lock interval
 [idle.behavior.lock]
 action = "lock"
 enabled = true

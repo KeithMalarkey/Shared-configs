@@ -1,7 +1,3 @@
-# ~/.config/bat/config
-# bat 配置：配色用自定义的 vault 主题（和 nvim 的 mrpbennett/vault 同色盘）
-# 主题文件：~/.config/bat/themes/vault.tmTheme
-
 --theme="vault"
 --color=auto
 --italic-text=always
