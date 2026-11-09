@@ -1,4 +1,6 @@
-return {
+local colorscheme = {}
+
+colorscheme = {
 	{
 		"mrpbennett/vault",
 		priority = 1000,
@@ -12,17 +14,16 @@ return {
 			else
 				vim.notify("vault: can not find vault.palette", vim.log.levels.WARN)
 			end
-			vim.cmd.colorscheme("vault")
 		end,
 	},
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		-- degrade to default colorscheme
 		priority = 1000,
 		opts = { flavour = "mocha", transparent_background = true },
 		config = function(_, opts)
 			require("catppuccin").setup(opts)
+			vim.cmd.colorscheme("catppuccin-macchiato")
 		end,
 	},
 	{
@@ -32,3 +33,4 @@ return {
 		opts = { transparent_mode = true },
 	},
 }
+return colorscheme

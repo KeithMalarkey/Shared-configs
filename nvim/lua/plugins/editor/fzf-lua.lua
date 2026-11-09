@@ -1,8 +1,5 @@
 return {
 	"ibhagwan/fzf-lua",
-	---@module "fzf-lua"
-	---@type fzf-lua.Config|{}
-	---@diagnostic disable: missing-fields
 	event = "UiEnter",
 
 	-- 默认参数：所有 picker 共享
@@ -12,22 +9,22 @@ return {
 		files = {
 			-- 额外的忽略规则（与 .gitignore 叠加，--type f 时忽略这些目录）
 			find_opts = [[-type f \! -path '*/.git/*' \! -path '*/node_modules/*' \! -path '*/build/*' \! -path '*/dist/*' \! -path '*/.cache/*']],
-			rg_opts   = [[--color=never --files -g "!.git" -g "!node_modules" -g "!build" -g "!dist" -g "!.cache"]],
-			fd_opts   = [[--color=never --type f --type l --exclude .git --exclude node_modules --exclude build --exclude dist --exclude .cache]],
-			hidden    = false,
+			rg_opts = [[--color=never --files -g "!.git" -g "!node_modules" -g "!build" -g "!dist" -g "!.cache"]],
+			fd_opts = [[--color=never --type f --type l --exclude .git --exclude node_modules --exclude build --exclude dist --exclude .cache]],
+			hidden = false,
 			no_ignore = false,
 		},
 		grep = {
 			-- rg/grep 默认参数（live_grep/grep 都共用）
-			rg_opts   = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+			rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
 			grep_opts = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp -e",
-			hidden    = false,
+			hidden = false,
 			no_ignore = false,
 		},
 		-- 美化提示符，便于看清当前 cwd
 		winopts = {
 			title_pos = "center",
-			title     = " fzf-lua ",
+			title = " fzf-lua ",
 		},
 	},
 
@@ -75,25 +72,12 @@ return {
 		end
 
 		return {
-			-- 文件搜索：限定到项目根
 			{ "<leader>ff", with_root("files"), desc = "find files (project root)" },
-			-- live_grep：交互式，限定到项目根
 			{ "<leader>fw", with_root("live_grep"), desc = "find words (live grep, project root)" },
-			-- 手动输入 grep 模式（输入完整 regex）
 			{ "<leader>fg", with_root("grep"), desc = "grep with regex (project root)" },
-			-- 快速 grep 当前 buffer
 			{ "<leader>fB", "<cmd>FzfLua grep_curbuf<cr>", desc = "grep current buffer" },
-			-- 重新执行上一次搜索
 			{
 				"<leader>fr",
-				function()
-					require("fzf-lua").resume({ cwd = project_root() })
-				end,
-				desc = "resume last fzf (project root)",
-			},
-			-- nvim 配置目录（保留原行为，不变 cwd）
-			{
-				"<leader>fR",
 				function()
 					require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
 				end,

@@ -66,15 +66,14 @@ return {
 			statuscolumn = {
 				enabled = true,
 				opts = {
-					left = { "mark", "sign" }, -- priority of signs on the left (high to low)
-					right = { "fold", "git" }, -- priority of signs on the right (high to low)
+					left = { "git", "mark", "sign" }, -- git marks on the far left, diagnostics next
+					right = { "fold" }, -- fold indicators to the right of the line number
 					folds = {
 						open = true, -- show open fold icons
 						git_hl = true, -- use Git Signs hl for fold icons
 					},
 					git = {
-						-- patterns to match Git signs
-						patterns = { "GitSign", "MiniDiffSign" },
+						patterns = { "GitSign", "MiniDiffSign" }, -- highlight groups treated as git marks
 					},
 					refresh = 50, -- refresh at most every 50ms
 				},

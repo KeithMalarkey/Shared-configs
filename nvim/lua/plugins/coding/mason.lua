@@ -1,5 +1,6 @@
--- mason：管理 LSP / linter / formatter 等外部工具
-return {
+local mason = {}
+
+mason = {
 	"mason-org/mason.nvim",
 	opts = {
 		ui = {
@@ -13,10 +14,9 @@ return {
 	config = function(_, opts)
 		require("mason").setup(opts)
 
-		-- NixOS 上 Mason 的预编译二进制缺少标准动态链接器，装了也跑不起来；
-		-- 外部工具改由 home-manager 安装（进 PATH 后 conform 等自动找到），
-		-- 检测到 NixOS 就跳过这里的自动安装。/etc/NIXOS 是 NixOS 的标志文件。
-		if vim.uv.fs_stat("/etc/NIXOS") ~= nil then
+		-- confirm whether current operation system is nixos
+		-- on nixos, runtime support of lsps is unavailable
+		if vim.uv.fs_stat("/etc/nixos") ~= nil then
 			return
 		end
 
@@ -44,3 +44,5 @@ return {
 		end
 	end,
 }
+
+return mason

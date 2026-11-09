@@ -1,11 +1,12 @@
+---- buffer operation
+--
 vim.keymap.set({ "n", "v" }, "<C-q>", "<cmd>q!<CR>", { desc = "Force quit" })
 vim.keymap.set({ "n", "v" }, "<C-s>", "<cmd>wall<CR>", { desc = "Force write all" })
-vim.keymap.set("n", "<leader>n", "<cmd>enew<cr>", { desc = "New File" })
-
+vim.keymap.set("n", "<leader>nb", "<cmd>enew<cr>", { desc = "New File" })
 vim.keymap.set("n", "<leader>R", function()
 	local old_name = vim.fn.expand("%:p")
 	if old_name == "" then
-		vim.notify("当前缓冲区无文件", vim.log.levels.WARN)
+		vim.notify("current buffer has no name", vim.log.levels.WARN)
 		return
 	end
 	vim.ui.input({ prompt = "New File Name: ", default = old_name }, function(new_name)
@@ -13,25 +14,12 @@ vim.keymap.set("n", "<leader>R", function()
 			vim.cmd("saveas " .. vim.fn.fnameescape(new_name))
 			vim.cmd("silent! !rm " .. vim.fn.shellescape(old_name))
 			vim.cmd("e!")
-			vim.notify("文件已重命名为: " .. new_name)
+			vim.notify("buffer has been renamed as: " .. new_name)
 		end
 	end)
 end, { desc = "Rename Current File" })
 
-vim.keymap.set("n", "<leader>c", function()
-	local current_buf = vim.api.nvim_get_current_buf()
-	local wins = vim.tbl_filter(function(win)
-		return vim.api.nvim_win_get_buf(win) == current_buf
-	end, vim.api.nvim_list_wins())
-
-	if #wins <= 1 then
-		vim.cmd("bd")
-	else
-		vim.cmd("close")
-	end
-end, { desc = "Close window/split or buffer" })
-
-vim.keymap.set("n", "<leader>cb", "<cmd>%bd<cr>", { desc = "close all buffers" })
+vim.keymap.set("n", "<leader>cb", "<cmd>%bd<cr>", { desc = "close other buffers" })
 vim.keymap.set("n", "[b", "<cmd>bp<cr>", { desc = "Previous Buffer" })
 vim.keymap.set("n", "]b", "<cmd>bn<cr>", { desc = "Next Buffer" })
 vim.keymap.set("v", "<C-h>", "<C-w>h", { desc = "go to the left window/split" })
@@ -76,38 +64,14 @@ vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>", { desc = "Previous [T]ab" })
 vim.keymap.set("n", "<C-t>n", "<cmd>tabnew<cr>", { desc = "[T]ab [N]ew" })
 vim.keymap.set("n", "<C-t>c", "<cmd>tabclose<cr>", { desc = "[T]ab [C]lose" })
 
--- neotree
--- vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle Neotree" })
-vim.keymap.set("n", "<leader>on", "<cmd>Neotree focus<cr>", { desc = "Focus Neotree" })
-
 -- better escape
 vim.keymap.set("i", "jj", "<Esc>")
 
-local function neotree_toggle_current()
-	local buf_path = vim.api.nvim_buf_get_name(0) -- 获取当前 buffer 路径
-	local dir_path
-
-	if buf_path == "" then
-		dir_path = vim.fn.getcwd()
-	else
-		dir_path = vim.fn.fnamemodify(buf_path, ":h")
-	end
-
-	require("neo-tree.command").execute({
-		toggle = true,
-		dir = dir_path,
-	})
-end
-vim.keymap.set("n", "<leader>fe", neotree_toggle_current, { desc = "Neotree (current buffer dir)" }) -- 打开当前buffer的根目录
-
 -- themes
--- vim.keymap.set("n", "<leader>ft", "<cmd>Telescope colorscheme<CR>", { desc = " Find Installed Themes" })
 vim.keymap.set("n", "<leader>ft", function()
 	require("fzf-lua").fzf_exec(vim.fn.getcompletion("", "color"), {
 		actions = {
 			["default"] = function(selected)
-				-- Neovim 内置也有一个叫 catppuccin 的配色，
-				-- 选到它时改用插件的 mocha 版本，避免换回内置那份。
 				local name = selected[1]
 				if name == "catppuccin" then
 					name = "catppuccin-mocha"
@@ -137,9 +101,7 @@ end, { desc = "go to implementation" })
 vim.keymap.set("n", "gr", function()
 	vim.lsp.buf.references()
 end, { desc = "go to references" })
-vim.keymap.set("n", "K", function()
-	vim.lsp.buf.hover()
-end, { desc = "Hover" })
+vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc", { desc = "Hover" })
 vim.keymap.set("n", "<leader>rn", function()
 	vim.lsp.buf.rename()
 end, { desc = "rename" })

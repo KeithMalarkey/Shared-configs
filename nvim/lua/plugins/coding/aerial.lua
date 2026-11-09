@@ -49,14 +49,6 @@ return {
 			},
 		})
 
-		-- 快捷键
 		vim.keymap.set("n", "<leader>ol", "<cmd>AerialToggle!<CR>", { desc = "Toggle outline" })
-		vim.keymap.set("n", "[[", "<cmd>AerialPrev<CR>", { desc = "Previous symbol" })
-		vim.keymap.set("n", "]]", "<cmd>AerialNext<CR>", { desc = "Next symbol" })
 	end,
-	keys = {
-		{ "<leader>ol", desc = "Toggle outline" },
-		{ "[[", desc = "Previous symbol" },
-		{ "]]", desc = "Next symbol" },
-	},
 }

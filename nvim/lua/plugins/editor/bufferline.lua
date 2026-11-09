@@ -1,5 +1,5 @@
+-- 缓存区顶部指示栏
 return {
-	-- 缓存区顶部指示栏
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
@@ -9,7 +9,6 @@ return {
 			"TabEnter",
 			"TabNew",
 		},
-		-- devicons 集中在 deps.lua，由 require 自动加载兜底
 		config = function()
 			require("bufferline").setup({
 				options = {
@@ -25,9 +24,7 @@ return {
 					close_icon = " ",
 					left_trunc_marker = " ",
 					right_trunc_marker = " ",
-					-- 名称显示
 					name_formatter = function(buf) -- buf: buffer对象
-						-- 移除目录，只显示文件名
 						local name = buf.name
 						if name then
 							name = vim.fn.fnamemodify(name, ":t")
@@ -46,7 +43,7 @@ return {
 						return " " .. icon .. count
 					end,
 
-					-- 偏移量（用于 NvimTree 等插件）
+					-- offset for plugins like neotree/nvimtree
 					offsets = {
 						{
 							filetype = "NvimTree",
@@ -87,11 +84,6 @@ return {
 					-- 排序
 					sort_by = "insert_after_current",
 					-- 可选: 'insert_after_current' | 'insert_at_end' | 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
-					-- 自定义排序函数示例:
-					-- sort_by = function(buffer_a, buffer_b)
-					--   -- 按修改时间排序
-					--   return buffer_a.modified > buffer_b.modified
-					-- end,
 				},
 				-- 高亮配置（themable = true 时生效）
 				highlights = {

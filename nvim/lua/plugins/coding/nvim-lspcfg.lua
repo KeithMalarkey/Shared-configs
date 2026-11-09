@@ -6,7 +6,6 @@ return {
 		dependencies = {
 			-- "hrsh7th/cmp-nvim-lsp",
 			"glepnir/lspsaga.nvim",
-			"folke/trouble.nvim",
 		},
 		config = function()
 			-- =================== capabilities ===================
@@ -41,7 +40,7 @@ return {
 					"--clang-tidy",
 					"--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++",
 				},
-				filetypes = { "c", "cpp", "objc", "objcpp", "cc" },
+				filetypes = { "c", "cpp", "objc", "objcpp" },
 				root_markers = { ".clangd", "compile_commands.json", "CMakeLists.txt", ".git" },
 				capabilities = capabilities,
 				on_attach = on_attach,
@@ -63,7 +62,7 @@ return {
 
 			-- =================== Rust ===================
 			vim.lsp.config["rust_analyzer"] = {
-				cmd = { "rust_analyzer" },
+				cmd = { "rust-analyzer" },
 				on_attach = on_attach,
 				filetypes = { "rust" },
 				capabilities = capabilities,
@@ -471,26 +470,6 @@ return {
 				ui = { border = "rounded" },
 				symbol_in_winbar = { enable = false },
 				lightbulb = { enable = false, virtual_text = false },
-			})
-
-			-- =================== trouble ===================
-			require("trouble").setup({
-				win = { position = "bottom", height = 0.3 },
-				icons = {
-					error = "",
-					warning = "",
-					hint = "",
-					information = "",
-				},
-				mode = "workspace_diagnostics",
-				fold_open = "",
-				fold_closed = "",
-				action_keys = {
-					close = "q",
-					jump = { "<cr>", "<tab>" },
-					refresh = "r",
-				},
-				use_diagnostic_signs = true,
 			})
 		end,
 	},

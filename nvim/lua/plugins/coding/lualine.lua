@@ -1,52 +1,40 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	event = { "BufWinEnter" },
-	-- devicons 在 deps.lua、gitsigns 有自己的 spec，无需再声明依赖
 	config = function()
-		-- 确保 gitsigns 已加载（如果还没配置的话）
-		require("gitsigns").setup()
-
 		local function workdir_component()
 			return {
 				function()
-					-- 判断是否是本地目录
 					local is_local = vim.fn.haslocaldir() == 1
 					local username = os.getenv("USER") or os.getenv("USERNAME") or "user"
 					local icon = (is_local and "L" or "G") .. "  "
 
-					-- 获取当前目录并缩短显示
 					local cwd = vim.fn.getcwd()
 					local short_cwd = vim.fn.pathshorten(vim.fn.fnamemodify(cwd, ":~"))
 
-					-- 添加斜杠
 					local trail = cwd:sub(-1) == "/" and "" or "/"
 
 					return username .. " @ " .. icon .. short_cwd .. trail .. " "
-					-- return username .. " @ " .. icon .. cwd .. trail .. " "
 				end,
-				icon = nil, -- 已经在函数中包含了图标
+				icon = nil,
 				color = { fg = "#cba6f7", bold = true },
 			}
 		end
 
 		local function get_current_time()
-			return os.date("%Y-%m-%d %H:%M %A")
+			return os.date("%Y-%m-%d %H:%M %a")
 		end
 
-		-- 自定义 LSP 状态组件
 		local function get_lsp_status()
-			-- 使用 get_clients 替代弃用的 get_active_clients
 			local clients = vim.lsp.get_clients({ bufnr = 0 })
 
 			if not clients or #clients == 0 then
-				return "" -- 没有 LSP 客户端时返回空字符串
+				return "" -- return nil if no lsp
 			end
 
-			-- 过滤掉非真正的 LSP 服务器（如 null-ls, stylua）
 			local lsp_names = {}
 			for _, client in ipairs(clients) do
 				if client and client.name then
-					-- 排除常见的格式化工具和伪 LSP
 					if
 						not ({
 							["null-ls"] = true,
@@ -94,7 +82,6 @@ return {
 						"dashboard", -- 仪表板
 						"snacks_dashboard", -- 仪表板
 						"lazy", -- lazy.nvim 界面
-						"Trouble", -- Trouble 插件
 						"alpha", -- alpha 启动页
 						"toggleterm", -- 终端
 					},
@@ -133,7 +120,6 @@ return {
 					},
 					{
 						get_lsp_status,
-						icon = "", -- LSP 图标
 						color = function()
 							local clients = vim.lsp.get_clients({ bufnr = 0 })
 							if clients and #clients > 0 then
