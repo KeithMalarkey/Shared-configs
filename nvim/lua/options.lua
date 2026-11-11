@@ -1,16 +1,24 @@
 vim.opt.number = true
--- vim.opt.number = false
--- vim.opt.relativenumber = false
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
--- 添加 '-' 词语, deep-mind算一个词更合理
-vim.opt.iskeyword:append("-")
--- 高亮行和列
 vim.opt.cursorline = true
 -- vim.opt.cursorcolumn = true
 -- vim.opt.cursorlineopt = "number" -- 开启光标行高亮,只高亮行号
+
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+
+vim.opt.iskeyword:append("-") -- neo-vim算一个单词
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+vim.opt.confirm = true
+vim.opt.clipboard = "unnamedplus"
+
+-- search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- 配置 swapfile 行为
 -- 不要自动删除交换文件：文件被外部工具更新时，可能误删另一个 nvim
