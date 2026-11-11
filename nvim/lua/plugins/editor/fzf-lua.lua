@@ -77,6 +77,13 @@ return {
 			{ "<leader>fg", with_root("grep"), desc = "grep with regex (project root)" },
 			{ "<leader>fB", "<cmd>FzfLua grep_curbuf<cr>", desc = "grep current buffer" },
 			{
+				"<leader>fe",
+				function()
+					require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h") })
+				end,
+				{ desc = "search files in buffer directory" },
+			},
+			{
 				"<leader>fr",
 				function()
 					require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })

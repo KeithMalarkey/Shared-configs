@@ -8,9 +8,7 @@ if vim.fn.empty(vim.v.servername) == 1 then
 	vim.fn.serverstart(sock)
 end
 
-require("keymap")
-require("options")
-
+---- plugins system
 -- lazy load
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -36,3 +34,13 @@ require("lazy").setup(
 		},
 	}
 )
+-- key mapping and options
+require("keymap")
+require("options")
+-- colorscheme setup according to current time
+local hour = tonumber(os.date("%H"))
+if hour >= 18 or hour < 6 then
+	vim.cmd.colorscheme("vault")
+else
+	vim.cmd.colorscheme("catppuccin-macchiato")
+end

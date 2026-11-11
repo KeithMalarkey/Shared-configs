@@ -38,7 +38,9 @@ return {
 					"--background-index",
 					"--suggest-missing-includes",
 					"--clang-tidy",
-					"--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++",
+					-- 注意：NixOS 上不要加 --query-driver。nixpkgs 的 clangd wrapper 一旦
+					-- 看到它就不再注入 glibc/libstdc++ 的 CPATH，clangd 又找不到 clang，
+					-- 结果标准头文件全部 file not found。
 				},
 				filetypes = { "c", "cpp", "objc", "objcpp" },
 				root_markers = { ".clangd", "compile_commands.json", "CMakeLists.txt", ".git" },
