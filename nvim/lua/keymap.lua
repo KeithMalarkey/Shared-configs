@@ -19,6 +19,51 @@ vim.keymap.set("n", "<leader>R", function()
 	end)
 end, { desc = "Rename Current File" })
 
+-- 删除当前 buffer，如果没有其他 buffer 则保存所有更改并退出 nvim，否则跳转到下一个 buffer
+local function delete_buffer_or_quit()
+	local current = vim.api.nvim_get_current_buf()
+	local buffers = vim.api.nvim_list_bufs()
+
+	-- 统计除当前 buffer 外，还有哪些“有效”的 buffer（已加载且 listed）
+	local other_buffers = {}
+	for _, buf in ipairs(buffers) do
+		if
+			buf ~= current
+			and vim.api.nvim_buf_is_valid(buf)
+			and vim.api.nvim_buf_is_loaded(buf)
+			and vim.bo[buf].buflisted
+		then
+			table.insert(other_buffers, buf)
+		end
+	end
+
+	if #other_buffers == 0 then
+		-- 没有其他 buffer：保存所有更改并退出
+		vim.cmd("wall")
+		vim.cmd("qa")
+	else
+		-- 有其他 buffer：先找到“下一个” buffer，再删除当前 buffer
+		-- 使用 buffer 编号顺序，找到比当前 buffer 编号大的第一个，否则回绕到最小的
+		local next_buf = nil
+		for _, buf in ipairs(other_buffers) do
+			if buf > current then
+				next_buf = buf
+				break
+			end
+		end
+		if not next_buf then
+			-- 没有比当前大的，回绕到最小的那个
+			next_buf = other_buffers[1]
+		end
+
+		-- 切换到下一个 buffer，再删除当前 buffer
+		vim.api.nvim_set_current_buf(next_buf)
+		vim.cmd("bdelete " .. current)
+	end
+end
+
+-- 映射到你喜欢的快捷键，例如 <leader>bd
+vim.keymap.set("n", "<leader>fc", delete_buffer_or_quit, { desc = "delete buffer or quit" })
 vim.keymap.set("n", "<leader>cb", "<cmd>%bd<cr>", { desc = "close other buffers" })
 vim.keymap.set("n", "[b", "<cmd>bp<cr>", { desc = "Previous Buffer" })
 vim.keymap.set("n", "]b", "<cmd>bn<cr>", { desc = "Next Buffer" })

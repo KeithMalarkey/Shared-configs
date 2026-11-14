@@ -79,7 +79,7 @@ return {
 			{
 				"<leader>fe",
 				function()
-					require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h") })
+					require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h"), hidden = true })
 				end,
 				{ desc = "search files in buffer directory" },
 			},
