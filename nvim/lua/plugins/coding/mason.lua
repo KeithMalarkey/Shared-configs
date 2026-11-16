@@ -32,7 +32,7 @@ mason = {
 			"tex-fmt",
 			"gersemi",
 			"yamlfmt",
-			"kdlfmt",
+			-- "kdlfmt",
 			"tombi",
 			"doctoc",
 		}
